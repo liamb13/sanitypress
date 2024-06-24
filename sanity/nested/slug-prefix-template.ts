@@ -21,7 +21,7 @@ export const slugPrefixTpl = (
 		}) => {
 			return {
 				parent: { _type: 'reference', _ref: parentId },
-				slug: { _type: 'string', current: parentSlug + '/' },
+				metadata: { slug: { _type: 'string', current: parentSlug + '/' } },
 			}
 		},
 	}
