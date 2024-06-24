@@ -13,6 +13,8 @@ import { vercelWidget } from 'sanity-plugin-dashboard-widget-vercel'
 import { visionTool } from '@sanity/vision'
 import { codeInput } from '@sanity/code-input'
 import { schemaTypes } from './schemas'
+import { slugPrefixTpl } from './nested/slug-prefix-template'
+import { SetSlugAndPublishAction } from './nested/set-slug-and-publish-action'
 
 const singletonTypes = ['site']
 
@@ -51,20 +53,30 @@ export default defineConfig({
 
 	schema: {
 		types: schemaTypes,
-		templates: (templates) =>
-			templates.filter(
-				({ schemaType }) => !singletonTypes.includes(schemaType),
-			),
+		templates: (templates) => {
+			return [
+				...templates.filter(
+					({ schemaType }) => !singletonTypes.includes(schemaType),
+				),
+				slugPrefixTpl('page'),
+			]
+		},
 	},
 
 	document: {
-		actions: (input, { schemaType }) =>
-			singletonTypes.includes(schemaType)
-				? input.filter(
-						({ action }) =>
-							action &&
-							['publish', 'discardChanges', 'restore'].includes(action),
-					)
-				: input,
+		actions: (input, { schemaType }) => {
+			switch (schemaType) {
+				case 'page':
+					return [SetSlugAndPublishAction, ...input]
+				default:
+					return singletonTypes.includes(schemaType)
+						? input.filter(
+								({ action }) =>
+									action &&
+									['publish', 'discardChanges', 'restore'].includes(action),
+							)
+						: input
+			}
+		},
 	},
 })

@@ -4,12 +4,18 @@ import type { StructureResolver } from 'sanity/structure'
 import { VscServerProcess } from 'react-icons/vsc'
 import { BsDatabaseAdd } from 'react-icons/bs'
 
+import parentChild from '../nested/parent-child'
+
 const structure: StructureResolver = (S, context) =>
 	S.list()
 		.title('Content')
 		.items([
 			singleton(S, 'site').icon(VscServerProcess),
-			S.documentTypeListItem('page').title('Pages'),
+			// S.documentTypeListItem('page').title('Pages'),
+			parentChild('page', S, context.documentStore, {
+				multiple: 'Pages',
+				single: 'Page',
+			}),
 			S.divider(),
 
 			S.documentTypeListItem('navigation'),

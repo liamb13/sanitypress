@@ -19,6 +19,7 @@
 		"@sanity/dashboard": "^3.1.6",
 		"@sanity/vision": "^3.47.1",
 		"dotenv": "^16.4.5",
+		"lodash-es": "^4.17.21",
 		"react": "^18.3.1",
 		"react-dom": "^18.3.1",
 		"react-icons": "^5.2.1",
@@ -27,10 +28,12 @@
 		"sanity": "^3.47.1",
 		"sanity-plugin-dashboard-widget-vercel": "^2.0.1",
 		"sanity-plugin-iframe-pane": "^3.1.6",
+		"slugify": "^1.6.6",
 		"styled-components": "^6.1.11"
 	},
 	"devDependencies": {
 		"@sanity/eslint-config-studio": "^4.0.0",
+		"@types/lodash-es": "^4.17.12",
 		"@types/react": "^18.3.3",
 		"eslint": "^9.5.0",
 		"prettier": "^3.3.2",

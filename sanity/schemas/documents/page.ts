@@ -1,10 +1,21 @@
-import { defineField, defineType } from 'sanity'
+import { defineArrayMember, defineField, defineType } from 'sanity'
 
 export default defineType({
 	name: 'page',
 	title: 'Page',
 	type: 'document',
 	fields: [
+		defineField({
+			name: 'parent',
+			type: 'reference',
+			to: [{ type: 'page' }],
+		}),
+		defineField({
+			name: 'children',
+			type: 'array',
+			of: [defineArrayMember({ type: 'string' })],
+			hidden: true,
+		}),
 		defineField({
 			name: 'title',
 			type: 'string',
@@ -36,6 +47,23 @@ export default defineType({
 			name: 'metadata',
 			type: 'metadata',
 		}),
+	],
+	orderings: [
+		{
+			name: 'slug',
+			title: 'Slug',
+			by: [{ field: 'metadata.slug.current', direction: 'asc' }],
+		},
+		{
+			name: 'title.asc',
+			title: 'Title (A-Z)',
+			by: [{ field: 'title', direction: 'asc' }],
+		},
+		{
+			name: 'title.desc',
+			title: 'Title (Z-A)',
+			by: [{ field: 'title', direction: 'desc' }],
+		},
 	],
 	preview: {
 		select: {
